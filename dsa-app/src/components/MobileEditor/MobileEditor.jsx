@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { EditorState } from '@codemirror/state'
 import { EditorView, keymap, lineNumbers, highlightActiveLine, drawSelection } from '@codemirror/view'
-import { defaultKeymap, historyKeymap, history } from '@codemirror/commands'
+import { defaultKeymap, historyKeymap, history, insertNewlineAndIndent } from '@codemirror/commands'
 import { python } from '@codemirror/lang-python'
 import { bracketMatching, indentOnInput, syntaxHighlighting, defaultHighlightStyle } from '@codemirror/language'
 import { closeBrackets, closeBracketsKeymap, autocompletion, completionKeymap } from '@codemirror/autocomplete'
@@ -80,6 +80,16 @@ const MobileEditor = forwardRef(function MobileEditor({ initialValue, onChange }
         autocorrect: 'off',
         autocapitalize: 'off',
         spellcheck: 'false',
+      }),
+      EditorView.domEventHandlers({
+        beforeinput(event, view) {
+          if (event.inputType === 'insertParagraph' || event.inputType === 'insertLineBreak') {
+            event.preventDefault()
+            insertNewlineAndIndent(view)
+            return true
+          }
+          return false
+        },
       }),
     ]
 
