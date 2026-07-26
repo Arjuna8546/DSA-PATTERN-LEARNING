@@ -3,7 +3,7 @@ import { EditorState } from '@codemirror/state'
 import { EditorView, keymap, lineNumbers, highlightActiveLine, drawSelection } from '@codemirror/view'
 import { defaultKeymap, historyKeymap, history, insertNewlineAndIndent } from '@codemirror/commands'
 import { python } from '@codemirror/lang-python'
-import { bracketMatching, indentOnInput, syntaxHighlighting, defaultHighlightStyle } from '@codemirror/language'
+import { bracketMatching, indentOnInput, indentUnit, syntaxHighlighting, defaultHighlightStyle } from '@codemirror/language'
 import { closeBrackets, closeBracketsKeymap, autocompletion, completionKeymap } from '@codemirror/autocomplete'
 import { lintGutter } from '@codemirror/lint'
 import Toolbar from './Toolbar.jsx'
@@ -66,6 +66,8 @@ const MobileEditor = forwardRef(function MobileEditor({ initialValue, onChange }
       bracketMatching(),
       closeBrackets(),
       indentOnInput(),
+      indentOnInput(),
+      indentUnit.of('    '), // 4 spaces, matches PEP8 and the app's own indent linter
       syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
       python(),
       autocompletion({ override: [pythonCompletionSource] }),
