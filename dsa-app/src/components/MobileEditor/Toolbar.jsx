@@ -96,7 +96,7 @@ function Toolbar({ viewRef, quickInsertOpen, onToggleQuickInsert }) {
           ))}
         </div>
       )}
-      <div className="flex items-center gap-1.5 overflow-x-auto px-1.5 py-1.5">
+      <div className="flex items-center gap-1.5 overflow-x-auto px-1.5 pt-5 pb-1.5">
         <ToolbarButton label="ƒ" wide onPress={onToggleQuickInsert} />
         <ToolbarButton label="Indent →" wide onPress={run(indentSelection)} />
         <ToolbarButton label="← Outdent" wide onPress={run(outdentSelection)} />
