@@ -17,6 +17,7 @@ function Solve() {
   const [result, setResult] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
   const [showSolution, setShowSolution] = useState(false)
+  const [showTestCases, setShowTestCases] = useState(false)
   const [confirmReset, setConfirmReset] = useState(false)
   const [confirmLoadSolution, setConfirmLoadSolution] = useState(false)
 
@@ -97,6 +98,12 @@ function Solve() {
           {showSolution ? 'Hide solution' : 'Show solution'}
         </button>
         <button
+          onClick={() => setShowTestCases((s) => !s)}
+          className="rounded-md border border-ink-600 px-3 py-2 font-mono text-xs text-ink-900 dark:text-paper-100"
+        >
+          {showTestCases ? 'Hide test cases' : 'Show test cases'}
+        </button>
+        <button
           onClick={handleRun}
           className="ml-auto rounded-md bg-signal-amber px-5 py-2 font-mono text-sm font-semibold text-ink-950 shadow-none active:opacity-80"
         >
@@ -118,6 +125,34 @@ function Solve() {
             </button>
           </div>
           <CodeBlock code={question.answer} wrap />
+        </div>
+      )}
+
+      {showTestCases && (
+        <div className="max-h-[45vh] overflow-y-auto border-t border-ink-600/40 bg-ink-900 p-3">
+          <span className="mb-2 block font-mono text-[11px] uppercase tracking-wide text-ink-500">
+            Test cases
+          </span>
+          <div className="flex flex-col gap-2">
+            {question.testCases.map((tc, i) => (
+              <div
+                key={i}
+                className="rounded-md border border-ink-600/40 bg-ink-950/40 p-2 font-mono text-xs text-paper-100"
+              >
+                <div className="mb-1 text-[10px] uppercase tracking-wide text-ink-500">
+                  Case {i + 1}
+                </div>
+                <div className="break-all">
+                  <span className="text-ink-500">Input: </span>
+                  {JSON.stringify(tc.input)}
+                </div>
+                <div className="break-all">
+                  <span className="text-ink-500">Expected: </span>
+                  {JSON.stringify(tc.expected)}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
