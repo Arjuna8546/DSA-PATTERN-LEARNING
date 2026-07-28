@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from 'react'
+import { useMemo, useState, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ReactFlow, { Background, Controls, MiniMap } from 'reactflow'
 import 'reactflow/dist/style.css'
@@ -6,6 +6,7 @@ import { computeTreeGraph } from './treeLayout'
 import GraphNode from './GraphNode'
 import { BRANCH_PALETTE, ROOT_COLOR } from './nodeStyles'
 import { getStoredViewport, setStoredViewport } from '../../lib/graphViewport'
+import { getStoredExpandedIds, setStoredExpandedIds } from '../../lib/graphExpandedState'
 
 const nodeTypes = { graphNode: GraphNode }
 
@@ -53,7 +54,13 @@ function ancestorsOf(id) {
 function GraphView({ dataStructures }) {
   const navigate = useNavigate()
   const [query, setQuery] = useState('')
-  const [expandedIds, setExpandedIds] = useState(() => new Set())
+  // Seed from whatever was last expanded, so returning from a pattern page
+  // (which unmounts this component) doesn't collapse the graph back to root.
+  const [expandedIds, setExpandedIds] = useState(() => getStoredExpandedIds())
+
+  useEffect(() => {
+    setStoredExpandedIds(expandedIds)
+  }, [expandedIds])
 
   const tree = useMemo(() => buildTree(dataStructures), [dataStructures])
   const normalizedQuery = query.trim().toLowerCase()

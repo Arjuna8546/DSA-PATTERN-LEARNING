@@ -21,8 +21,17 @@ export function getPattern(dsId, categoryId, patternId) {
   return { ds, category, pattern }
 }
 
-/** Resolves a single question by its slug from qs.json. */
-export function getQuestion(slug) {
+/**
+ * Resolves a single question by its slug from qs.json.
+ * Checks "slug::variationId" first (a variation-specific answer, used when the
+ * same underlying question is solved differently across variations), then
+ * falls back to the plain slug entry.
+ */
+export function getQuestion(slug, variationId) {
+  if (variationId) {
+    const specific = questionsById[`${slug}::${variationId}`]
+    if (specific) return specific
+  }
   return questionsById[slug] || null
 }
 
@@ -33,7 +42,7 @@ export function getQuestionsForVariation(dsId, categoryId, patternId, variationI
   if (!found) return []
   const variation = found.pattern.variations.find((v) => v.id === variationId)
   if (!variation) return []
-  return variation.questionIds.map((slug) => getQuestion(slug)).filter(Boolean)
+  return variation.questionIds.map((slug) => getQuestion(slug, variationId)).filter(Boolean)
 }
 
 /** Builds a flat node/edge list for the home graph: DS -> Category -> Pattern. */
