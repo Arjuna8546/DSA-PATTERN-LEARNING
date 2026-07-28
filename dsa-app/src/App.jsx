@@ -3,6 +3,7 @@ import { ThemeProvider } from './lib/ThemeContext'
 import Home from './pages/Home.jsx'
 import PatternDetail from './pages/PatternDetail.jsx'
 import Solve from './pages/Solve.jsx'
+import MusicPlayer from './components/MusicPlayer/MusicPlayer.jsx'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/pattern/:dsId/:categoryId/:patternId" element={<PatternDetail />} />
         <Route path="/solve/:questionId" element={<Solve />} />
       </Routes>
+      <MusicPlayer />
     </ThemeProvider>
   )
 }
