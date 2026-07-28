@@ -41,14 +41,14 @@ function PatternDetail() {
   return (
     <div className="min-h-screen bg-paper-50 pb-16 dark:bg-ink-950">
       <header className="sticky top-0 z-10 border-b border-ink-600/40 bg-paper-50/95 px-4 py-3 backdrop-blur dark:bg-ink-950/95">
-        <button
+        
+        <div className="font-mono text-[11px] uppercase tracking-wide text-ink-500">
+          <button
           onClick={() => navigate('/')}
-          className="mb-1.5 flex items-center gap-1 font-mono text-xs text-signal-teal"
+          className="mb-1.5  gap-1 font-mono text-xs text-signal-teal"
         >
           &larr; Back to graph
-        </button>
-        <div className="font-mono text-[11px] uppercase tracking-wide text-ink-500">
-          {ds.name} <span className="mx-1">/</span> {category.name} <span className="mx-1">/</span> {pattern.name}
+        </button> / {ds.name} <span className="mx-1">/</span> {category.name} <span className="mx-1">/</span> {pattern.name}
         </div>
       </header>
 
