@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
-const VIDEO_ID = 'FtukH_bCDHg'
+const VIDEO_ID = 'sjkrrmBnpGE'
 
 let apiPromise = null
 function loadYouTubeAPI() {
